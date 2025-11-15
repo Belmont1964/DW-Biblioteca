@@ -1,0 +1,22 @@
+CREATE TABLE Cliente (
+    idCliente INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    nome VARCHAR(50) NOT NULL,
+    cpf VARCHAR(11) UNIQUE NOT NULL,
+    tel VARCHAR(9),
+    ddd VARCHAR(2),
+    email VARCHAR(50)
+);
+
+CREATE TABLE Livro (
+    idLivro INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    titulo VARCHAR(50) not NULL,
+    autor VARCHAR (30) not NULL,
+    edição VARCHAR(3),
+    lugar VARCHAR (8) not NULL default 'c1-p1-e1',
+    exemplar VARCHAR(2),
+    statusLivro VARCHAR (1),
+    cliente int,
+    CONSTRAINT FK_Cliente FOREIGN KEY(cliente) REFERENCES Cliente (idCliente),
+    
+);
+
