@@ -10,7 +10,9 @@ cd DW-Biblioteca
 
 2. Criando uma branch para sua mudança
 Sempre crie uma nova branch a partir da main:
+
 Copiar código
+
 git checkout -b sua-feature-aqui
 
 Exemplos de nomes de branch:
