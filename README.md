@@ -28,20 +28,31 @@ Exemplos de nomes de branch:
 
 3. Fazendo o commit
 Tente escrever mensagens de commit claras:
+
 Copiar código
+
 git add .
+
 git commit -m "Descricao curta e clara da mudança"
+
 
 ---------------------------
 
 4. Enviando a branch e criando o Pull Request
 Copiar código
+
 git push origin sua-feature-aqui
 
+
 Depois, no GitHub
+
 Abra o repositório
+
 Clique em Compare & pull request
+
 Descreva o que você mudou
+
 Envie o Pull Request
+
 
 Eu vou revisar, comentar se necessário e fazer o merge quando estiver ok. 
