@@ -20,14 +20,16 @@
             </div>
             <div class = "container">
 
-                <div class="div3">                     
+                <div class="div3">   <!-- MOSTRA O RESULTADO DA BUSCA -->
                     <c:forEach var="l" items="${livros}">
                         <FORM action ="Biblioteca" method ="POST">
-                            ${l.titulo}  <br>  ${l.autor}  
-                            <button type="submit">ALUGAR</button>
+                            ${l.idLivro} - ${l.titulo}  <br>  ${l.autor} - ${l.statusLivro}
+                            <button class="${l.statusLivro == 'I' ? 'cinza' : 'branco'}" 
+                                    type="submit" ${l.statusLivro == 'I' ? 'disabled' : ''}>EMPRESTAR</button>
                             <br>
-                            <input type="hidden" name="choice" value="ALUGAR"><br>
-                            <!--input type="hidden" name="idSai" value="${c.id}"--> 
+                            <input type="hidden" name="choice" value="EMPRESTAR"><br>
+                            <input type="hidden" name="idEmp" value="${l.idLivro}"> 
+                            <input type="hidden" name="statusLivroEmp" value="${l.statusLivro}"> 
                         </FORM>
                     </c:forEach>  
                     
@@ -43,15 +45,17 @@
                     
                 </div>
 
-                <div class="div4">
+                <div class="div4"> <!-- MONTA A AREA DE CONSULTA -->
                     <div id = "div5">
                         <FORM action ="Biblioteca" method ="POST">                          
                             <br> 
                             <input type ="text" name="book" maxlenght="50" placeholder="TITULO DO LIVRO" size=50><br><!-- comment -->
                             <input type="text" name="author" maxlength="30" placeholder="AUTOR" size=30><br><!-- comment -->
-                            <button type="submit" name="choice" value="CONSULTAR">CONSULTAR</button>
-                            <button type="submit" name="choice" value="EMPRESTAR">EMPRESTAR</button>
-                            <br><br><h2 id="msg">${erro}</h2>
+                            <button type="submit" name="choice" value="CONSULTAR">CONSULTAR</button><br><br><!-- comment -->
+                            <button type="submit" name="choice" value="DEVOLVER">DEVOLUÇÃO</button><!-- comment -->
+                            <button type="submit" name="choice" value="CADCLIENTE">CADASTRAR CLIENTE</button>
+                            <button type="submit" name="choice" value="CADLIVRO">CADASTRAR LIVRO</button>
+                            <br><h2 id="msg">${erro}</h2>
                             <script>
                                 setTimeout(function () {
                                     var el = document.getElementById("msg");
@@ -62,9 +66,30 @@
                             </script>
                           
                         </FORM>
+                    </div>                
+                    <div id="div6">
+                        <c:if test="${choice == 'EMPRESTAR'}">
+                            <form action="Biblioteca" method="POST">
+                                <br>
+                                <input type="text" name="cpf" placeholder="CPF" size="11"><br>
+                                <input type="password" name="senha" placeholder="SENHA" size="11">
+                                
+                                <input type="hidden" name="idEmp" value="${param.idEmp}">  
+                                <button class="branco" type="submit" name="choice" value="EMPRESTAR">ENVIAR</button>
+                                <br><h2 id="msg2">${msg2}</h2>
+                                <script>
+                                setTimeout(function () {
+                                    var el = document.getElementById("msg2");
+                                    if (el) {
+                                        el.remove();
+                                    }
+                                }, 3000);
+                                </script>
+                            </form>
+                        </c:if>
                     </div>
+                    
 
-                    <div id="div6"></div>
                 </div>
 
             </div>

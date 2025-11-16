@@ -112,4 +112,23 @@ html, body {
     border-style: solid;
     border-color: black;
     border-radius: 5px;
+    padding: 5px;
 }
+
+
+.cinza {
+    background-color: gray;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+.branco {
+    background-color: white;
+    color: black;
+    border: none;
+    border-radius: 5px;
+}
+
+
+
