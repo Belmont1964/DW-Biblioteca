@@ -4,6 +4,7 @@ Obrigado por querer contribuir com este projeto! 💻📚
 
 ## 1. Clonando o projeto
 git clone https://github.com/Belmont1964/DW-Biblioteca.git
+
 cd DW-Biblioteca
 
 -------------------------
@@ -16,8 +17,11 @@ Copiar código
 git checkout -b sua-feature-aqui
 
 Exemplos de nomes de branch:
+
     feat-busca-parcial-titulo
+    
     fix-layout-biblioteca-jsp
+    
     refactor-servlet-biblioteca
 
 --------------------------
