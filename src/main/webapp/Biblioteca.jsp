@@ -20,7 +20,17 @@
             </div>
             <div class = "container">
 
-                <div class="div3">                   
+                <div class="div3">  
+                    <h1 id="msg1">${msg}</h1>
+                    <script>
+                        setTimeout(function () {
+                            var el = document.getElementById("msg1");
+                            if (el) {
+                                el.remove();
+                            }
+                        }, 3000);
+                    </script>
+                    <!--
                     <c:forEach var="c" items="${contatos}">
                         <FORM action ="Agenda" method ="POST">
                             ${c.nome}  -  ${c.tel}  -  ${c.id} - 
@@ -29,17 +39,28 @@
                             <input type="hidden" name="choice" value="APAGAR">
                             <input type="hidden" name="idSai" value="${c.id}"> 
                         </FORM>
-                    </c:forEach>                            
+                    </c:forEach>   -->
+                    
                 </div>
 
                 <div class="div4">
                     <div id = "div5">
-                        <FORM action ="Agenda" method ="POST">                          
+                        <FORM action ="Biblioteca" method ="POST">                          
                             <br> 
-                            <input type ="text" name="nome" maxlenght="50" placeholder="LIVRO" size=50><br><!-- comment -->
-                            <input type="text" name="tel" maxlength="30" placeholder="AUTOR" size=30><br><!-- comment -->
+                            <input type ="text" name="book" maxlenght="50" placeholder="TITULO DO LIVRO" size=50><br><!-- comment -->
+                            <input type="text" name="author" maxlength="30" placeholder="AUTOR" size=30><br><!-- comment -->
                             <button type="submit" name="choice" value="CONSULTAR">CONSULTAR</button>
-                            <button type="submit" name="choice" value="ALUGAR">ALUGAR</button>
+                            <button type="submit" name="choice" value="EMPRESTAR">EMPRESTAR</button>
+                            <br><br><h2 id="msg">${erro}</h2>
+                            <script>
+                                setTimeout(function () {
+                                    var el = document.getElementById("msg");
+                                    if (el) {
+                                        el.remove();
+                                    }
+                                }, 3000);
+                            </script>
+                          
                         </FORM>
                     </div>
 

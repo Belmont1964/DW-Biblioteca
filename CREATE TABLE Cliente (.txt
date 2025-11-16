@@ -11,12 +11,14 @@ CREATE TABLE Livro (
     idLivro INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     titulo VARCHAR(50) not NULL,
     autor VARCHAR (30) not NULL,
-    edição VARCHAR(3),
     lugar VARCHAR (8) not NULL default 'c1-p1-e1',
-    exemplar VARCHAR(2),
     statusLivro VARCHAR (1),
     cliente int,
-    CONSTRAINT FK_Cliente FOREIGN KEY(cliente) REFERENCES Cliente (idCliente),
+    dataEmprestimo DATE,
+    dataDevolucao DATE,
+    edicao VARCHAR(3),
+
+    CONSTRAINT FK_Cliente FOREIGN KEY(cliente) REFERENCES Cliente (idCliente)
     
 );
 

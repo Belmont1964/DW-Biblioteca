@@ -4,6 +4,7 @@
  */
 package app;
 
+import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,6 +14,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  *
@@ -48,7 +53,68 @@ public class Biblioteca extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
+            String titulo = request.getParameter("book");
+            String autor = request.getParameter("author");
+            String escolha = request.getParameter("choice");
             
+            if ("CONSULTAR".equals(escolha)){
+                String erro, msg = "";
+                if ("".equals(titulo) && "".equals(autor)){
+                    erro = "CONSULTA INVÁLIDA";
+                    request.setAttribute("erro",erro);
+                }
+                else {
+                    String comandoSQL;
+                    int decideBusca;
+                    if ("".equals(titulo)){
+                        comandoSQL ="SELECT * FROM Livro WHERE autor = ?";
+                        decideBusca = 0;
+                    }
+                    else{
+                        comandoSQL ="SELECT * FROM Livro WHERE titulo = ?";
+                        decideBusca = 1;
+                    }
+                        
+                    try (PreparedStatement sql = conexao.prepareStatement(comandoSQL)){
+                        if (decideBusca == 0){
+                            sql.setString(1,autor);
+                        }
+                        else {
+                            sql.setString(1,titulo);
+                        }
+                        ResultSet rs = sql.executeQuery();                      
+                        List <Livro> livros = new ArrayList<>();
+                        
+                        if (!rs.next()){
+                            msg = "TITULO OU AUTOR NÃO ENCONTRADO";
+                            request.setAttribute("msg",msg);
+                        }
+                        else{                                               
+                            while (rs.next()){
+                                livros.add(new Livro(
+                                        rs.getInt("idLivro"),
+                                        rs.getString("titulo"),
+                                        rs.getString("autor"),
+                                        rs.getString("edicao"),
+                                        rs.getString("lugar"),
+                                        rs.getString("stausLivro")
+                                ));
+                            }
+                        }
+                        
+                    }
+                    catch (Exception e){
+                        out.println("erro " + e );
+                    } 
+                    
+                    
+                }
+                
+                RequestDispatcher dispatcher = request.getRequestDispatcher("Biblioteca.jsp");
+                if (dispatcher != null){
+                    dispatcher.forward(request, response);
+                }
+            }
         }
     }
 
