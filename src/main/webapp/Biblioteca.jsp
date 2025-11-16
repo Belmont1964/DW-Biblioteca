@@ -20,7 +20,17 @@
             </div>
             <div class = "container">
 
-                <div class="div3">  
+                <div class="div3">                     
+                    <c:forEach var="l" items="${livros}">
+                        <FORM action ="Biblioteca" method ="POST">
+                            ${l.titulo}  <br>  ${l.autor}  
+                            <button type="submit">ALUGAR</button>
+                            <br>
+                            <input type="hidden" name="choice" value="ALUGAR"><br>
+                            <!--input type="hidden" name="idSai" value="${c.id}"--> 
+                        </FORM>
+                    </c:forEach>  
+                    
                     <h1 id="msg1">${msg}</h1>
                     <script>
                         setTimeout(function () {
@@ -30,16 +40,6 @@
                             }
                         }, 3000);
                     </script>
-                    <!--
-                    <c:forEach var="c" items="${contatos}">
-                        <FORM action ="Agenda" method ="POST">
-                            ${c.nome}  -  ${c.tel}  -  ${c.id} - 
-                            <button type="submit">APAGAR</button>
-                            <br>
-                            <input type="hidden" name="choice" value="APAGAR">
-                            <input type="hidden" name="idSai" value="${c.id}"> 
-                        </FORM>
-                    </c:forEach>   -->
                     
                 </div>
 

@@ -67,21 +67,22 @@ public class Biblioteca extends HttpServlet {
                     String comandoSQL;
                     int decideBusca;
                     if ("".equals(titulo)){
-                        comandoSQL ="SELECT * FROM Livro WHERE autor = ?";
+                        comandoSQL ="SELECT * FROM Livro WHERE UPPER (autor) LIKE UPPER (?)";
                         decideBusca = 0;
                     }
                     else{
-                        comandoSQL ="SELECT * FROM Livro WHERE titulo = ?";
+                        comandoSQL ="SELECT * FROM Livro WHERE UPPER (titulo) LIKE UPPER (?)";
                         decideBusca = 1;
                     }
                         
                     try (PreparedStatement sql = conexao.prepareStatement(comandoSQL)){
                         if (decideBusca == 0){
-                            sql.setString(1,autor);
+                            sql.setString(1,"%" + autor + "%");
                         }
                         else {
-                            sql.setString(1,titulo);
+                            sql.setString(1,"%" + titulo + "%");
                         }
+                        
                         ResultSet rs = sql.executeQuery();                      
                         List <Livro> livros = new ArrayList<>();
                         
@@ -90,21 +91,24 @@ public class Biblioteca extends HttpServlet {
                             request.setAttribute("msg",msg);
                         }
                         else{                                               
-                            while (rs.next()){
+                            do{
                                 livros.add(new Livro(
                                         rs.getInt("idLivro"),
                                         rs.getString("titulo"),
                                         rs.getString("autor"),
                                         rs.getString("edicao"),
                                         rs.getString("lugar"),
-                                        rs.getString("stausLivro")
+                                        rs.getString("statusLivro")
                                 ));
-                            }
+                            }while(rs.next());
+                            request.setAttribute("livros", livros);
                         }
                         
                     }
                     catch (Exception e){
                         out.println("erro " + e );
+                        msg = "erro "+e;
+                        request.setAttribute("msg",msg);
                     } 
                     
                     
