@@ -48,14 +48,14 @@
                 <div class="div4"> <!-- MONTA A AREA DE CONSULTA -->
                     <div id = "div5">
                         <FORM action ="Biblioteca" method ="POST">                          
-                            <br> 
+                            
                             <input type ="text" name="book" maxlenght="50" placeholder="TITULO DO LIVRO" size=50><br><!-- comment -->
                             <input type="text" name="author" maxlength="30" placeholder="AUTOR" size=30><br><!-- comment -->
-                            <button type="submit" name="choice" value="CONSULTAR">CONSULTAR</button><br><br><!-- comment -->
+                            <button type="submit" name="choice" value="CONSULTAR">CONSULTAR</button><br><!-- comment -->
                             <button type="submit" name="choice" value="DEVOLVER">DEVOLUÇÃO</button><!-- comment -->
                             <button type="submit" name="choice" value="CADCLIENTE">CADASTRAR CLIENTE</button>
                             <button type="submit" name="choice" value="CADLIVRO">CADASTRAR LIVRO</button>
-                            <br><h2 id="msg">${erro}</h2>
+                            <h2 id="msg">${erro}</h2>
                             <script>
                                 setTimeout(function () {
                                     var el = document.getElementById("msg");

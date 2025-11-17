@@ -35,88 +35,88 @@ VALUES ('João Carvalho', '01234567890', '98997766', '27', 'joao.carvalho@exampl
 LIVROS
 
 INSERT INTO Livro (titulo, autor, lugar, statusLivro, edicao)
-VALUES ('Dom Quixote', 'Miguel de Cervantes', 'c1-p1-e1', 'D', 1);
+VALUES ('Dom Quixote', 'Miguel de Cervantes', 'c1-p1-e1', 'D', '1');
 
 INSERT INTO Livro (titulo, autor, lugar, statusLivro, edicao)
-VALUES ('1984', 'George Orwell', 'c1-p1-e1', 'D', 2);
+VALUES ('1984', 'George Orwell', 'c1-p1-e1', 'D', '2');
 
 INSERT INTO Livro (titulo, autor, lugar, statusLivro, edicao)
-VALUES ('A Revolução dos Bichos', 'George Orwell', 'c1-p1-e1', 'I', 3);
+VALUES ('A Revolução dos Bichos', 'George Orwell', 'c1-p1-e1', 'I', '3');
 
 INSERT INTO Livro (titulo, autor, lugar, statusLivro, edicao)
-VALUES ('O Senhor dos Anéis', 'J. R. R. Tolkien', 'c1-p1-e1', 'D', 1);
+VALUES ('O Senhor dos Anéis', 'J. R. R. Tolkien', 'c1-p1-e1', 'D', '1');
 
 INSERT INTO Livro (titulo, autor, lugar, statusLivro, edicao)
-VALUES ('O Hobbit', 'J. R. R. Tolkien', 'c1-p1-e1', 'D', 4);
+VALUES ('O Hobbit', 'J. R. R. Tolkien', 'c1-p1-e1', 'D', '4');
 
 INSERT INTO Livro (titulo, autor, lugar, statusLivro, edicao)
-VALUES ('Crime e Castigo', 'Fiódor Dostoiévski', 'c1-p1-e1', 'D', 2);
+VALUES ('Crime e Castigo', 'Fiódor Dostoiévski', 'c1-p1-e1', 'D', '2');
 
 INSERT INTO Livro (titulo, autor, lugar, statusLivro, edicao)
-VALUES ('Os Irmãos Karamázov', 'Fiódor Dostoiévski', 'c1-p1-e1', 'D', 1);
+VALUES ('Os Irmãos Karamázov', 'Fiódor Dostoiévski', 'c1-p1-e1', 'D', '1');
 
 INSERT INTO Livro (titulo, autor, lugar, statusLivro, edicao)
-VALUES ('O Pequeno Príncipe', 'Antoine de Saint-Exupéry', 'c1-p1-e1', 'D', 3);
+VALUES ('O Pequeno Príncipe', 'Antoine de Saint-Exupéry', 'c1-p1-e1', 'D', '3');
 
 INSERT INTO Livro (titulo, autor, lugar, statusLivro, edicao)
-VALUES ('Orgulho e Preconceito', 'Jane Austen', 'c1-p1-e1', 'D', 5);
+VALUES ('Orgulho e Preconceito', 'Jane Austen', 'c1-p1-e1', 'D', '5');
 
 INSERT INTO Livro (titulo, autor, lugar, statusLivro, edicao)
-VALUES ('Drácula', 'Bram Stoker', 'c1-p1-e1', 'D', 1);
+VALUES ('Drácula', 'Bram Stoker', 'c1-p1-e1', 'D', '1');
 
 INSERT INTO Livro (titulo, autor, lugar, statusLivro, edicao)
-VALUES ('Frankenstein', 'Mary Shelley', 'c1-p1-e1', 'D', 2);
+VALUES ('Frankenstein', 'Mary Shelley', 'c1-p1-e1', 'D', '2');
 
 INSERT INTO Livro (titulo, autor, lugar, statusLivro, edicao)
-VALUES ('O Nome da Rosa', 'Umberto Eco', 'c1-p1-e1', 'D', 1);
+VALUES ('O Nome da Rosa', 'Umberto Eco', 'c1-p1-e1', 'D', '1');
 
 INSERT INTO Livro (titulo, autor, lugar, statusLivro, edicao)
-VALUES ('O Código Da Vinci', 'Dan Brown', 'c1-p1-e1', 'D', 3);
+VALUES ('O Código Da Vinci', 'Dan Brown', 'c1-p1-e1', 'D', '3');
 
 INSERT INTO Livro (titulo, autor, lugar, statusLivro, edicao)
-VALUES ('Anjos e Demônios', 'Dan Brown', 'c1-p1-e1', 'D', 1);
+VALUES ('Anjos e Demônios', 'Dan Brown', 'c1-p1-e1', 'D', '1');
 
 INSERT INTO Livro (titulo, autor, lugar, statusLivro, edicao)
-VALUES ('A Menina que Roubava Livros', 'Markus Zusak', 'c1-p1-e1', 'D', 2);
+VALUES ('A Menina que Roubava Livros', 'Markus Zusak', 'c1-p1-e1', 'D', '2');
 
 INSERT INTO Livro (titulo, autor, lugar, statusLivro, edicao)
-VALUES ('O Morro dos Ventos Uivantes', 'Emily Brontë', 'c1-p1-e1', 'D', 1);
+VALUES ('O Morro dos Ventos Uivantes', 'Emily Brontë', 'c1-p1-e1', 'D', '1');
 
 INSERT INTO Livro (titulo, autor, lugar, statusLivro, edicao)
-VALUES ('Cem Anos de Solidão', 'Gabriel García Márquez', 'c1-p1-e1', 'D', 2);
+VALUES ('Cem Anos de Solidão', 'Gabriel García Márquez', 'c1-p1-e1', 'D', '2');
 
 INSERT INTO Livro (titulo, autor, lugar, statusLivro, edicao)
-VALUES ('O Amor nos Tempos do Cólera', 'Gabriel García Márquez', 'c1-p1-e1', 'D', 3);
+VALUES ('O Amor nos Tempos do Cólera', 'Gabriel García Márquez', 'c1-p1-e1', 'D', '3');
 
 INSERT INTO Livro (titulo, autor, lugar, statusLivro, edicao)
-VALUES ('O Processo', 'Franz Kafka', 'c1-p1-e1', 'D', 1);
+VALUES ('O Processo', 'Franz Kafka', 'c1-p1-e1', 'D', '1');
 
 INSERT INTO Livro (titulo, autor, lugar, statusLivro, edicao)
-VALUES ('Metamorfose', 'Franz Kafka', 'c1-p1-e1', 'D', 1);
+VALUES ('Metamorfose', 'Franz Kafka', 'c1-p1-e1', 'D', '1');
 
 INSERT INTO Livro (titulo, autor, lugar, statusLivro, edicao)
-VALUES ('A Sangue Frio', 'Truman Capote', 'c1-p1-e1', 'D', 2);
+VALUES ('A Sangue Frio', 'Truman Capote', 'c1-p1-e1', 'D', '2');
 
 INSERT INTO Livro (titulo, autor, lugar, statusLivro, edicao)
-VALUES ('O Apanhador no Campo de Centeio', 'J.D. Salinger', 'c1-p1-e1', 'D', 3);
+VALUES ('O Apanhador no Campo de Centeio', 'J.D. Salinger', 'c1-p1-e1', 'D', '3');
 
 INSERT INTO Livro (titulo, autor, lugar, statusLivro, edicao)
-VALUES ('O Lobo da Estepe', 'Hermann Hesse', 'c1-p1-e1', 'D', 1);
+VALUES ('O Lobo da Estepe', 'Hermann Hesse', 'c1-p1-e1', 'D', '1');
 
 INSERT INTO Livro (titulo, autor, lugar, statusLivro, edicao)
-VALUES ('Siddhartha', 'Hermann Hesse', 'c1-p1-e1', 'D', 1);
+VALUES ('Siddhartha', 'Hermann Hesse', 'c1-p1-e1', 'D', '1');
 
 INSERT INTO Livro (titulo, autor, lugar, statusLivro, edicao)
-VALUES ('Admirável Mundo Novo', 'Aldous Huxley', 'c1-p1-e1', 'D', 2);
+VALUES ('Admirável Mundo Novo', 'Aldous Huxley', 'c1-p1-e1', 'D', '2');
 
 INSERT INTO Livro (titulo, autor, lugar, statusLivro, edicao)
-VALUES ('O Silmarillion', 'J. R. R. Tolkien', 'c1-p1-e1', 'D', 1);
+VALUES ('O Silmarillion', 'J. R. R. Tolkien', 'c1-p1-e1', 'D', '1');
 
 INSERT INTO Livro (titulo, autor, lugar, statusLivro, edicao)
-VALUES ('A Metamorfose', 'Franz Kafka', 'c1-p1-e1', 'D', 4);
+VALUES ('A Metamorfose', 'Franz Kafka', 'c1-p1-e1', 'D', '4');
 
 INSERT INTO Livro (titulo, autor, lugar, statusLivro, edicao)
-VALUES ('It', 'Stephen King', 'c1-p1-e1', 'D', 1);
+VALUES ('It', 'Stephen King', 'c1-p1-e1', 'D', '1');
 
 INSERT INTO Livro (titulo, autor, lugar, statusLivro, edicao)
-VALUES ('O Iluminado', 'Stephen King', 'c1-p1-e1', 'D', 3);
+VALUES ('O Iluminado', 'Stephen King', 'c1-p1-e1', 'D', '3');
