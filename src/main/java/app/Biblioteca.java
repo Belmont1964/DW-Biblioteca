@@ -64,7 +64,7 @@ public class Biblioteca extends HttpServlet {
             
             
             if ("CONSULTAR".equals(escolha)){
-                
+                request.setAttribute("choice",escolha);
                 if ("".equals(titulo) && "".equals(autor)){
                     erro = "CONSULTA INVÁLIDA";
                     request.setAttribute("erro",erro);
@@ -162,7 +162,6 @@ public class Biblioteca extends HttpServlet {
                                      msg = "erro "+e;
                                      request.setAttribute("msg",msg);
                             }   
-
                             msg2 = "EMPRÉSTIMO FEITO COM SUCESSO";
                         }
 
@@ -178,7 +177,59 @@ public class Biblioteca extends HttpServlet {
                 
             }
             
-            
+            else if ("DEVOLVER".equals(escolha)){
+                request.setAttribute("choice",escolha);
+                String cpf = request.getParameter("cpf");
+                String comandoSQL="select * from Cliente where cpf = ? ";
+                String msg3 = cpf;
+                
+                if (cpf != null && !cpf.isEmpty()){                   
+                    try (PreparedStatement sql = conexao.prepareStatement(comandoSQL)){                   
+                        sql.setString(1, cpf);
+                        ResultSet rsc = sql.executeQuery();
+                        if (!rsc.next()){
+                            msg3 = "CPF NÃO ENCONTRADO";
+                        }
+                        else{
+                            int id = rsc.getInt("idCliente");                                              
+                            comandoSQL="select * from Livro where Cliente = ? ";
+                            try (PreparedStatement sql1 = conexao.prepareStatement(comandoSQL)){
+                                sql1.setInt(1,id);
+                                ResultSet rsl = sql1.executeQuery();
+                                List <Livro> livros = new ArrayList<>();
+                                if (!rsl.next()){
+                                    msg3 = "USUÁRIO NÃO POSSUI LIVRO A DEVOLVER";                                       
+                                }
+                                else{
+                                    do{
+                                        livros.add(new Livro(
+                                            rsl.getInt("idLivro"),
+                                            rsl.getString("titulo"),
+                                            rsl.getString("autor"),
+                                            rsl.getString("edicao"),
+                                            rsl.getString("lugar"),
+                                            rsl.getString("statusLivro")                                    
+                                       ));
+                                    }while(rsl.next());
+                                    request.setAttribute("livros", livros);
+                                }
+
+
+                            }catch (SQLException e) {
+                                out.println("erro " + e );
+                                     msg = "erro "+e;
+                                     request.setAttribute("msg",msg);
+                            }
+                        }
+                    
+                    } catch (SQLException e) {
+                        out.println("erro " + e );
+                            msg = "erro "+e;
+                            request.setAttribute("msg",msg);
+                    }
+                }
+                request.setAttribute("msg3", msg3);
+            }
             
             RequestDispatcher dispatcher = request.getRequestDispatcher("Biblioteca.jsp");
             if (dispatcher != null){

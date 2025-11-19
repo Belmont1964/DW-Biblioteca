@@ -12,6 +12,18 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>BIBLIOTECA</title>
         <link rel="stylesheet" href="Biblioteca.css"> 
+        
+        <script>
+            function removerMensagens (idElemento, tempo){
+                setTimeout(function () {
+                    var el = document.getElementById(idElemento);
+                    if (el) {
+                        el.remove();
+                    }
+                }, tempo);
+            }
+                
+        </script>
     </head>
     <body>
         <div id = "page">
@@ -24,23 +36,26 @@
                     <c:forEach var="l" items="${livros}">
                         <FORM action ="Biblioteca" method ="POST">
                             ${l.idLivro} - ${l.titulo}  <br>  ${l.autor} - ${l.statusLivro}
-                            <button class="${l.statusLivro == 'I' ? 'cinza' : 'branco'}" 
+
+                            <c:if test="${choice == 'CONSULTAR'}">
+                                <button class="${l.statusLivro == 'I' ? 'cinza' : 'branco'}" 
                                     type="submit" ${l.statusLivro == 'I' ? 'disabled' : ''}>EMPRESTAR</button>
+                                <input type="hidden" name="choice" value="EMPRESTAR"><br>
+                                <input type="hidden" name="idEmp" value="${l.idLivro}"> 
+                                <input type="hidden" name="statusLivroEmp" value="${l.statusLivro}"> 
+                            </c:if>
+                            <c:if test="${choice == 'DEVOLVER'}">
+                                <button class="branco" type="submit">DEVOLVER</button>
+                                <input type="hidden" name="choice" value="EFETUAR-DEV">
+                                <input type="hidden" name="idDev" value="${l.idLivro}">
+                            </c:if>
                             <br>
-                            <input type="hidden" name="choice" value="EMPRESTAR"><br>
-                            <input type="hidden" name="idEmp" value="${l.idLivro}"> 
-                            <input type="hidden" name="statusLivroEmp" value="${l.statusLivro}"> 
                         </FORM>
                     </c:forEach>  
                     
                     <h1 id="msg1">${msg}</h1>
                     <script>
-                        setTimeout(function () {
-                            var el = document.getElementById("msg1");
-                            if (el) {
-                                el.remove();
-                            }
-                        }, 3000);
+                        removerMensagens("msg1",3000);
                     </script>
                     
                 </div>
@@ -57,12 +72,7 @@
                             <button type="submit" name="choice" value="CADLIVRO">CADASTRAR LIVRO</button>
                             <h2 id="msg">${erro}</h2>
                             <script>
-                                setTimeout(function () {
-                                    var el = document.getElementById("msg");
-                                    if (el) {
-                                        el.remove();
-                                    }
-                                }, 3000);
+                                removerMensagens("msg",3000);
                             </script>
                           
                         </FORM>
@@ -78,12 +88,18 @@
                                 <button class="branco" type="submit" name="choice" value="EMPRESTAR">ENVIAR</button>
                                 <br><h2 id="msg2">${msg2}</h2>
                                 <script>
-                                setTimeout(function () {
-                                    var el = document.getElementById("msg2");
-                                    if (el) {
-                                        el.remove();
-                                    }
-                                }, 3000);
+                                    removerMensagens("msg2",3000);
+                                </script>
+                            </form>
+                        </c:if>
+                        
+                        <c:if test="${choice == 'DEVOLVER'}">
+                            <form action="Biblioteca" method="POST">
+                                <input type="text" name="cpf" placeholder="CPF" size="11"><br>
+                                <button class="branco" type="submit" name="choice" value="DEVOLVER">ENVIAR</button>
+                                <br><h2 id="msg3">${msg3}</h2>
+                                <script>
+                                    removerMensagens("msg3",3000);
                                 </script>
                             </form>
                         </c:if>
