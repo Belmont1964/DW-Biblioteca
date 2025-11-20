@@ -56,6 +56,7 @@ public class Biblioteca extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
@@ -65,6 +66,7 @@ public class Biblioteca extends HttpServlet {
             String erro, msg, update = "";
             
             
+            // ROTINA PARA BUSCAR LIVRO(S) PARA EMPRESTIMO POR AUTOR OU POR NOME DO LIVRO
             if ("CONSULTAR".equals(escolha)){
                 request.setAttribute("choice",escolha);
                 if ("".equals(titulo) && "".equals(autor)){
@@ -82,7 +84,7 @@ public class Biblioteca extends HttpServlet {
                         comandoSQL ="SELECT * FROM Livro WHERE UPPER (titulo) LIKE UPPER (?)";
                         decideBusca = 1;
                     }
-                        
+
                     try (PreparedStatement sql = conexao.prepareStatement(comandoSQL)){
                         if (decideBusca == 0){
                             sql.setString(1,"%" + autor + "%");
@@ -90,10 +92,10 @@ public class Biblioteca extends HttpServlet {
                         else {
                             sql.setString(1,"%" + titulo + "%");
                         }
-                        
+
                         ResultSet rs = sql.executeQuery();                      
                         List <Livro> livros = new ArrayList<>();
-                        
+
                         if (!rs.next()){
                             msg = "TITULO OU AUTOR NÃO ENCONTRADO";
                             request.setAttribute("msg",msg);
@@ -111,15 +113,15 @@ public class Biblioteca extends HttpServlet {
                             }while(rs.next());
                             request.setAttribute("livros", livros);
                         }
-                        
+
                     }
                     catch (Exception e){
                         out.println("erro " + e );
                         msg = "erro "+e;
                         request.setAttribute("msg",msg);
                     } 
-                    
-                    
+
+
                 }
                 /*
                 RequestDispatcher dispatcher = request.getRequestDispatcher("Biblioteca.jsp");
@@ -128,6 +130,8 @@ public class Biblioteca extends HttpServlet {
                 }
                 */
             }
+
+            // ROTINA PARA SELECIONAR LIVRO A SER EMPRESTADO A UM CLIENTE
             else if ("EMPRESTAR".equals(escolha)){
                 request.setAttribute("choice",escolha);
                 String cpf = request.getParameter("cpf");
@@ -165,15 +169,6 @@ public class Biblioteca extends HttpServlet {
                                      msg = "erro "+e;
                                      request.setAttribute("msg",msg);
                             }   
-                            /*
-                            comandoSQL = "update Emprestimo set idCliente = ?, idLivro = ?, dataEmp = ?";
-                            try(PreparedStatement sql2 = conexao.prepareStatement(comandoSQL)){
-                                sql2.setInt (1,c);
-                                sql2.setInt (2,l);
-                                sql2.setDate(3, hjSQL);
-                                sql2.executeUpdate();
-                                
-                            }*/
                             msg2 = "EMPRÉSTIMO FEITO COM SUCESSO";
                         }
 
@@ -183,18 +178,19 @@ public class Biblioteca extends HttpServlet {
                         msg = "erro "+e;
                         request.setAttribute("msg",msg);
                 }
-                
-                
+
+
                 request.setAttribute("msg2",msg2);
-                
+
             }
-            
+
+            // ROTINA PARA BUSCAR LIVRO(S) EMPRESTADO A UM CLIENTE 
             else if ("DEVOLVER".equals(escolha)){
                 request.setAttribute("choice",escolha);
                 String cpf = request.getParameter("cpf");
                 String comandoSQL="select * from Cliente where cpf = ? ";
                 String msg3 = cpf;
-                
+
                 if (cpf != null && !cpf.isEmpty()){                   
                     try (PreparedStatement sql = conexao.prepareStatement(comandoSQL)){                   
                         sql.setString(1, cpf);
@@ -226,7 +222,7 @@ public class Biblioteca extends HttpServlet {
                                        ));
                                     }while(rsl.next());
                                     request.setAttribute("livros", livros);
-                                    
+
                                 }
 
 
@@ -235,9 +231,9 @@ public class Biblioteca extends HttpServlet {
                                      msg = "erro "+e;
                                      request.setAttribute("msg",msg);
                             }
-                            
+
                         }
-                    
+
                     } catch (SQLException e) {
                         out.println("erro " + e );
                             msg = "erro "+e;
@@ -246,7 +242,8 @@ public class Biblioteca extends HttpServlet {
                 }
                 request.setAttribute("msg3", msg3);
             }
-            
+
+            // ROTINA PARA SELECIONAR LIVRO A SER DEVOLVIDO POR UM CLIENTE E ATUALIZAR HISTÓRICO DE EMPRESTIMO
             else if("EFETUAR-DEV".equals(escolha)){
                 request.setAttribute("choice",escolha);
                 int idL = Integer.parseInt(request.getParameter("idDev"));
@@ -255,14 +252,14 @@ public class Biblioteca extends HttpServlet {
                 LocalDate dataEmp = LocalDate.parse(request.getParameter("dataEmp"));
                 LocalDate hj = LocalDate.now();
                 long diasAtraso = ChronoUnit.DAYS.between(dataEmp, hj);
-                
+
                 double multa = 0.0;               
                 if (diasAtraso > 7){
                     multa = (diasAtraso - 7) * 20.0;
                     String msg5 = "VOCÊ TEM UMA MULTA DE: R$"+multa;
                     request.setAttribute("msg5",msg5);
                 }
-                
+
                 java.sql.Date dataEmpSQL = java.sql.Date.valueOf(dataEmp);
                 //LocalDate hj = LocalDate.now();
                 java.sql.Date hjSQL = java.sql.Date.valueOf(hj);
@@ -275,13 +272,13 @@ public class Biblioteca extends HttpServlet {
                     sql.executeUpdate();
                     String msg4 = "DEVOLUÇÃO EFETUADA COM SUCESSO";
                     request.setAttribute("msg4",msg4);
-                    
+
                 } catch (SQLException e) {
                     out.println("erro " + e );
                         msg = "erro "+e;
                         request.setAttribute("msg",msg);
                 }
-                
+
                 comandoSQL = "insert into Emprestimo (idCliente, idLivro, dataEmp, dataDev, multa)"+
                         "values (?,?,?,?,?)";
                     try(PreparedStatement sql2 = conexao.prepareStatement(comandoSQL)){
@@ -297,14 +294,65 @@ public class Biblioteca extends HttpServlet {
                         msg = "erro "+e;
                         request.setAttribute("msg",msg);
                     }
-                
-                
+
+
             }
-            
+
+            // ROTINA PARA CADASTRAR UM CLIENTE 
+            else if ("CADCLIENTE".equals(escolha)){
+                request.setAttribute("choice",escolha);
+                String nome = request.getParameter("nome");
+                String cpf = request.getParameter("cpf");
+                String ddd = request.getParameter("ddd");
+                String tel = request.getParameter("tel");
+                String email = request.getParameter("email");
+                String senha = request.getParameter("senha");
+                String confirmaSenha = request.getParameter("confirmaSenha");
+                String msg6="";
+
+                
+                if(senha == null || confirmaSenha==null || nome ==null || nome.trim().isEmpty() || cpf.trim().isEmpty() || cpf == null){
+                    msg6 = "NOME, CPF E SENHA NÃO PODEM SER NULOS";
+                }
+                else if (!senha.equals(confirmaSenha)){
+                    msg6 = "SENHA DIVERGE DA CONFIRMAÇÃO";
+                }
+                else{
+                    
+                    String comandoSQL = "insert into Cliente (nome, cpf, ddd, tel, email, senha) "+
+                            "values (?,?,?,?,?,?)";
+                    try(PreparedStatement sql = conexao.prepareStatement(comandoSQL)){
+                        sql.setString(1,nome);
+                        sql.setString(2,cpf);
+                        sql.setString(3,ddd);
+                        sql.setString(4,tel);
+                        sql.setString(5,email);
+                        sql.setString(6,senha);
+                        sql.executeUpdate();
+                        msg6 = "CLIENTE "+nome+" CADASTRADO COM SUCESSO";
+                        
+                        
+                    } catch (SQLException e) {
+                        out.println("erro " + e );
+                        if (e.getErrorCode() == 30000){
+                            msg6 = "CPF JÁ CADASTRADO";
+                        }
+                        else{
+                            msg = "erro "+e.getErrorCode();
+                            request.setAttribute("msg",msg);
+                        }
+                        
+                    }
+                }
+
+                request.setAttribute("msg6",msg6);
+            }
+
+
             RequestDispatcher dispatcher = request.getRequestDispatcher("Biblioteca.jsp");
             if (dispatcher != null){
                 dispatcher.forward(request, response);
-            }
+            }    
         }
     }
 
