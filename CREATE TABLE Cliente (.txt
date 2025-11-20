@@ -23,3 +23,21 @@ CREATE TABLE Livro (
     
 );
 
+CREATE TABLE Emprestimo (
+    idEmprestimo INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    idCliente INT NOT NULL,
+    idLivro INT NOT NULL,
+    dataEmp DATE,
+    dataDev DATE,
+    multa DOUBLE,
+
+    CONSTRAINT fk_emp_cliente
+        FOREIGN KEY (idCliente)
+        REFERENCES Cliente(idCliente),
+
+    CONSTRAINT fk_emp_livro
+        FOREIGN KEY (idLivro)
+        REFERENCES Livro(idLivro)
+);
+
+

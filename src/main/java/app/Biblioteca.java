@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.time.*;
+import java.time.temporal.ChronoUnit;
 
 /**
  *
@@ -150,24 +152,34 @@ public class Biblioteca extends HttpServlet {
                             LocalDate hj = LocalDate.now();
                             java.sql.Date hjSQL = java.sql.Date.valueOf(hj);
 
-                            comandoSQL = "update Livro set cliente = ?, statusLivro = ?, dataEmprestimo = ? where idLivro = ?";
+                            comandoSQL = "update Livro set cliente = ?, statusLivro = ?, dataEmprestimo = ?, dataDevolucao = ? where idLivro = ?";
                             try(PreparedStatement sql1 = conexao.prepareStatement(comandoSQL)){
                                 sql1.setInt(1, c);
                                 sql1.setString (2,"I");
                                 sql1.setDate(3, hjSQL);
-                                sql1.setInt(4, l);
+                                sql1.setDate(4,null);
+                                sql1.setInt(5, l);
                                 sql1.executeUpdate();
                             }catch (SQLException e) {
                                 out.println("erro " + e );
                                      msg = "erro "+e;
                                      request.setAttribute("msg",msg);
                             }   
+                            /*
+                            comandoSQL = "update Emprestimo set idCliente = ?, idLivro = ?, dataEmp = ?";
+                            try(PreparedStatement sql2 = conexao.prepareStatement(comandoSQL)){
+                                sql2.setInt (1,c);
+                                sql2.setInt (2,l);
+                                sql2.setDate(3, hjSQL);
+                                sql2.executeUpdate();
+                                
+                            }*/
                             msg2 = "EMPRÉSTIMO FEITO COM SUCESSO";
                         }
 
                     }
                 } catch (SQLException e) {
-                   out.println("erro " + e );
+                    out.println("erro " + e );
                         msg = "erro "+e;
                         request.setAttribute("msg",msg);
                 }
@@ -191,7 +203,8 @@ public class Biblioteca extends HttpServlet {
                             msg3 = "CPF NÃO ENCONTRADO";
                         }
                         else{
-                            int id = rsc.getInt("idCliente");                                              
+                            int id = rsc.getInt("idCliente");  
+                            request.setAttribute ("idCliente", id);
                             comandoSQL="select * from Livro where Cliente = ? ";
                             try (PreparedStatement sql1 = conexao.prepareStatement(comandoSQL)){
                                 sql1.setInt(1,id);
@@ -208,10 +221,12 @@ public class Biblioteca extends HttpServlet {
                                             rsl.getString("autor"),
                                             rsl.getString("edicao"),
                                             rsl.getString("lugar"),
-                                            rsl.getString("statusLivro")                                    
+                                            rsl.getString("statusLivro"),
+                                            rsl.getDate("dataEmprestimo")
                                        ));
                                     }while(rsl.next());
                                     request.setAttribute("livros", livros);
+                                    
                                 }
 
 
@@ -220,6 +235,7 @@ public class Biblioteca extends HttpServlet {
                                      msg = "erro "+e;
                                      request.setAttribute("msg",msg);
                             }
+                            
                         }
                     
                     } catch (SQLException e) {
@@ -229,6 +245,60 @@ public class Biblioteca extends HttpServlet {
                     }
                 }
                 request.setAttribute("msg3", msg3);
+            }
+            
+            else if("EFETUAR-DEV".equals(escolha)){
+                request.setAttribute("choice",escolha);
+                int idL = Integer.parseInt(request.getParameter("idDev"));
+                int idC = Integer.parseInt(request.getParameter("idCliente"));
+
+                LocalDate dataEmp = LocalDate.parse(request.getParameter("dataEmp"));
+                LocalDate hj = LocalDate.now();
+                long diasAtraso = ChronoUnit.DAYS.between(dataEmp, hj);
+                
+                double multa = 0.0;               
+                if (diasAtraso > 7){
+                    multa = (diasAtraso - 7) * 20.0;
+                    String msg5 = "VOCÊ TEM UMA MULTA DE: R$"+multa;
+                    request.setAttribute("msg5",msg5);
+                }
+                
+                java.sql.Date dataEmpSQL = java.sql.Date.valueOf(dataEmp);
+                //LocalDate hj = LocalDate.now();
+                java.sql.Date hjSQL = java.sql.Date.valueOf(hj);
+                String comandoSQL = "update Livro set statusLivro = ?, dataDevolucao = ?, Cliente = ? where idLivro = ?";
+                try(PreparedStatement sql = conexao.prepareStatement(comandoSQL)){
+                    sql.setString (1,"D");
+                    sql.setDate (2,hjSQL);
+                    sql.setNull(3, java.sql.Types.INTEGER);
+                    sql.setInt(4,idL);
+                    sql.executeUpdate();
+                    String msg4 = "DEVOLUÇÃO EFETUADA COM SUCESSO";
+                    request.setAttribute("msg4",msg4);
+                    
+                } catch (SQLException e) {
+                    out.println("erro " + e );
+                        msg = "erro "+e;
+                        request.setAttribute("msg",msg);
+                }
+                
+                comandoSQL = "insert into Emprestimo (idCliente, idLivro, dataEmp, dataDev, multa)"+
+                        "values (?,?,?,?,?)";
+                    try(PreparedStatement sql2 = conexao.prepareStatement(comandoSQL)){
+                        sql2.setInt (1,idC);
+                        sql2.setInt (2,idL);
+                        sql2.setDate(3, dataEmpSQL);
+                        sql2.setDate(4, hjSQL);
+                        sql2.setDouble(5, multa);
+                        sql2.executeUpdate();
+
+                    } catch (SQLException e) {
+                    out.println("erro " + e );
+                        msg = "erro "+e;
+                        request.setAttribute("msg",msg);
+                    }
+                
+                
             }
             
             RequestDispatcher dispatcher = request.getRequestDispatcher("Biblioteca.jsp");

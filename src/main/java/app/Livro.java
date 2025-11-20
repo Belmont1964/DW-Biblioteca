@@ -43,6 +43,16 @@ public class Livro {
         this.statusLivro = statusLivro;
     }
     
+    public Livro (int idLivro, String titulo, String autor, String lugar, String edicao, String statusLivro, Date dataEmp){
+        this.idLivro = idLivro;
+        this.titulo = titulo;
+        this.autor = autor;
+        this.edicao = edicao;
+        this.lugar = lugar;
+        this.statusLivro = statusLivro;
+        this.dataEmprestimo = dataEmp;
+    }
+    
     public Livro (){
         
     }
