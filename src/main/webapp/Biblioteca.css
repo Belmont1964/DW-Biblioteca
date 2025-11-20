@@ -21,7 +21,7 @@ html, body {
 }
 
 #page {               /* envolve #div1 + .container */
-  min-height: 100vh; /* garante a exibição da div mesmo vazia (vh = viewport height)*/
+  height: 100vh; /* garante a exibição da div mesmo vazia (vh = viewport height)*/
   display: flex;
   flex-direction: column;
   min-width: 0; /* permite que o elemento diminua sua largura abaixo do tamanho mínimo natural e evita que o item “estoure” o container flex */
@@ -58,10 +58,9 @@ html, body {
 
 
 .div3{
-    flex: 1 1 0;
+    flex: 1 1 0;  /* grow:1 (ajusta-se no espaço do container), shrink:1 (pode encolher se faltar espaço), basis:0 → tamanho inicial antes do grow/shrink */
     min-width: 0;
     min-height: 0;     
-    overflow: auto;
     background-color: rgb(21, 18, 223);
     border-width: 1px;
     border-style: solid;
@@ -70,7 +69,8 @@ html, body {
     margin: 0px;
     color: white;
     padding-left: 10px;
-    
+    overflow-y: auto;    /* aparece barra de rolagem vertical, hidden impede a barra de rolagem */
+    overflow-x: auto;  /* aparece barra de rolagem horizontal, hidden impede a barra de rolagem */
 }
 .div4{
     flex: 1 1 0;
