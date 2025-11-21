@@ -36,7 +36,7 @@
                 <div class="div3">   <!-- MOSTRA O RESULTADO DA BUSCA -->
                     <c:forEach var="l" items="${livros}">
                         <FORM action ="Biblioteca" method ="POST">
-                            ${l.idLivro} - ${l.titulo} - Local: ${l.lugar} <br>  ${l.autor} - Edição: ${l.edicao} - Status: ${l.statusLivro}
+                            <h3>${l.idLivro} - ${l.titulo} - Local: ${l.lugar} <br>  ${l.autor} - Edição: ${l.edicao} - Status: ${l.statusLivro}</h3>
                             
                             <c:if test="${choice == 'CONSULTAR'}">
                                 <button class="${l.statusLivro == 'I' ? 'cinza' : 'branco'}" 
