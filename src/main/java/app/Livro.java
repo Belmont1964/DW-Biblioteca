@@ -34,7 +34,7 @@ public class Livro {
         this.dataDevolucao = dataDevolucao;      
     }
     
-    public Livro (int idLivro, String titulo, String autor, String lugar, String edicao, String statusLivro){
+    public Livro (int idLivro, String titulo, String autor, String edicao, String lugar, String statusLivro){
         this.idLivro = idLivro;
         this.titulo = titulo;
         this.autor = autor;

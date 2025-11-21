@@ -14,7 +14,7 @@
         <link rel="stylesheet" href="Biblioteca.css"> 
         
         <script>
-            const t = 3000
+            const t = 3000;
             function removerMensagens (idElemento, tempo = t){
                 setTimeout(function () {
                     var el = document.getElementById(idElemento);
@@ -22,9 +22,9 @@
                         el.remove();
                     }
                 }, tempo);
-            }
-                
+            }               
         </script>
+        
     </head>
     <body>
         <div id = "page">
@@ -36,7 +36,7 @@
                 <div class="div3">   <!-- MOSTRA O RESULTADO DA BUSCA -->
                     <c:forEach var="l" items="${livros}">
                         <FORM action ="Biblioteca" method ="POST">
-                            ${l.idLivro} - ${l.titulo}  <br>  ${l.autor} - ${l.statusLivro}
+                            ${l.idLivro} - ${l.titulo} - Local: ${l.lugar} <br>  ${l.autor} - Edição: ${l.edicao} - Status: ${l.statusLivro}
                             
                             <c:if test="${choice == 'CONSULTAR'}">
                                 <button class="${l.statusLivro == 'I' ? 'cinza' : 'branco'}" 
