@@ -60,8 +60,8 @@ public class Biblioteca extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            String titulo = request.getParameter("book");
-            String autor = request.getParameter("author");
+            //String titulo = request.getParameter("book");
+            //String autor = request.getParameter("author");
             String escolha = request.getParameter("choice");
             String erro, msg, update = "";
             
@@ -69,6 +69,8 @@ public class Biblioteca extends HttpServlet {
             // ROTINA PARA BUSCAR LIVRO(S) PARA EMPRESTIMO POR AUTOR OU POR NOME DO LIVRO
             if ("CONSULTAR".equals(escolha)){
                 request.setAttribute("choice",escolha);
+                String titulo = request.getParameter("book");
+                String autor = request.getParameter("author");
                 if ("".equals(titulo) && "".equals(autor)){
                     erro = "CONSULTA INVÁLIDA";
                     request.setAttribute("erro",erro);
@@ -347,14 +349,59 @@ public class Biblioteca extends HttpServlet {
 
                 request.setAttribute("msg6",msg6);
             }
+            
+            // ROTINA PARA CADASTRAR UM LIVRO 
+            else if ("CADLIVRO".equals(escolha)){
+                request.setAttribute("choice",escolha);
+                String titulo = request.getParameter("titulo");
+                String autor = request.getParameter("autor");
+                String edicao = request.getParameter("edicao");
+                String c = request.getParameter("c");
+                String p = request.getParameter("p");
+                String e = request.getParameter("e");
+                
+                String lugar = "c"+c+"-p"+p+"-e"+e;
+                String msg7 = lugar;
 
-
+                
+                if(titulo == null || autor ==null || titulo.trim().isEmpty() || autor.trim().isEmpty()){
+                    msg7 = "TITULO E AUTOR NÃO PODEM SER NULOS";
+                }
+                else {                                 
+                    String comandoSQL = "insert into Livro (titulo, autor, edicao, lugar, statusLivro) "+
+                        "values (?, ?, ?, ?, ?)";
+                    try(PreparedStatement sql = conexao.prepareStatement(comandoSQL)){
+                        sql.setString(1,titulo);
+                        sql.setString(2,autor);
+                        sql.setString(3,edicao);
+                        sql.setString(4,lugar);
+                        sql.setString(5,"D");
+                        sql.executeUpdate();
+                        msg7 = "LIVRO CADASTRADO COM SUCESSO";
+                        
+                        
+                } catch (SQLException ex) {
+                    out.println("erro " + ex );
+                    msg = "erro "+ex;
+                    request.setAttribute("msg",msg);
+                    }
+                }
+                request.setAttribute("msg7",msg7);
+            }
+              
+            
+            //REQUEST DISPATCHER PARA TODAS AS ROTINAS
             RequestDispatcher dispatcher = request.getRequestDispatcher("Biblioteca.jsp");
             if (dispatcher != null){
                 dispatcher.forward(request, response);
-            }    
+            } 
+
         }
+
+
+               
     }
+
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

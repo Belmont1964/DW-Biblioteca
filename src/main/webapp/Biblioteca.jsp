@@ -136,6 +136,27 @@
                                 </script>
                             </FORM>
                         </c:if>
+                        
+                        <!-- ROTINA PARA CADASTRAR UM NOVO LIVRO -->
+                        <c:if test="${choice == 'CADLIVRO'}">
+                            <FORM action="Biblioteca" method="POST">
+                                <BR><input type="text" name="titulo" placeholder="TITULO" maxlength="50" size="50"><!-- comment -->
+                                <BR><input type="text" name="autor" placeholder="AUTOR" maxlength="30" size="30">
+                                <BR><input type="text" name="edicao" placeholder="EDIÇÃO" maxlength="3" size="3">
+                                 - lOCAL: Corredor:
+                                <input type="text" name="c"maxlength ="3" size="3">
+                                 - Prateleira:
+                                <input type="text" name="p"maxlength ="3" size="3">
+                                 - Estante:
+                                <input type="text" name="e"maxlength ="3" size="3"><!-- comment -->
+                                <button class="branco" type="submit" name="choice" value="CADLIVRO">ENVIAR</button>
+                                <br><h2 id="msg7"> ${msg7}</h2>
+                                <script>
+                                    removerMensagens("msg7");
+                                </script>
+                                <br>
+                            </FORM>                      
+                        </c:if>
                     </div>
                     
 
