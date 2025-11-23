@@ -34,29 +34,42 @@
             <div class = "container">
 
                 <div class="div3">   <!-- MOSTRA O RESULTADO DA BUSCA -->
-                    <c:forEach var="l" items="${livros}">
-                        <FORM action ="Biblioteca" method ="POST">
-                            <h3>${l.idLivro} - ${l.titulo} - Local: ${l.lugar} <br>  ${l.autor} - Edição: ${l.edicao} - Status: ${l.statusLivro}</h3>
-                            
-                            <c:if test="${choice == 'CONSULTAR'}">
-                                <button class="${l.statusLivro == 'I' ? 'cinza' : 'branco'}" 
-                                    type="submit" ${l.statusLivro == 'I' ? 'disabled' : ''}>EMPRESTAR</button>
-                                <input type="hidden" name="choice" value="EMPRESTAR"><br>
-                                <input type="hidden" name="idEmp" value="${l.idLivro}"> 
-                                <input type="hidden" name="statusLivroEmp" value="${l.statusLivro}"> 
-                            </c:if>
-                            <c:if test="${choice == 'DEVOLVER'}">
-                                <button class="branco" type="submit">DEVOLVER</button>
-                                <input type="hidden" name="choice" value="EFETUAR-DEV">
-                                <input type="hidden" name="idDev" value="${l.idLivro}">
-                                <input type="hidden" name="idCliente" value="${idCliente}">
-                                <input type="hidden" name="dataEmp" value="${l.dataEmprestimo}">
-                                
-                            </c:if>
-                            <br>
-                        </FORM>
-                    </c:forEach>  
+                    <c:if test="${choice == 'CONSULTAR' or choice == 'DEVOLVER'}">
+                        <c:forEach var="l" items="${livros}">
+                            <FORM action ="Biblioteca" method ="POST">
+                                <h3>${l.idLivro} - ${l.titulo} - Local: ${l.lugar} <br>  ${l.autor} - Edição: ${l.edicao} - Status: ${l.statusLivro}</h3>
+
+                                <c:if test="${choice == 'CONSULTAR'}">
+                                    <button class="${l.statusLivro == 'I' ? 'cinza' : 'branco'}" 
+                                        type="submit" ${l.statusLivro == 'I' ? 'disabled' : ''}>EMPRESTAR</button>
+                                    <input type="hidden" name="choice" value="EMPRESTAR"><br>
+                                    <input type="hidden" name="idEmp" value="${l.idLivro}"> 
+                                    <input type="hidden" name="statusLivroEmp" value="${l.statusLivro}"> 
+                                </c:if>
+                                <c:if test="${choice == 'DEVOLVER'}">
+                                    <button class="branco" type="submit">DEVOLVER</button>
+                                    <input type="hidden" name="choice" value="EFETUAR-DEV">
+                                    <input type="hidden" name="idDev" value="${l.idLivro}">
+                                    <input type="hidden" name="idCliente" value="${idCliente}">
+                                    <input type="hidden" name="dataEmp" value="${l.dataEmprestimo}">
+
+                                </c:if>
+                                <br>
+                            </FORM>
+                        </c:forEach>  
+                    </c:if>
                     
+                    <c:if test="${choice == 'HISTORICO'}">
+                        <c:if test="${blockHead == 'N'}" >
+                            <h2>${head}</h2>
+                        </c:if>
+                        <c:forEach var="e" items="${emprestimos}">
+                            <h3>Titulo: ${e.titulo} - Autor: ${e.autor}</h3>
+                            <h3>Emprestado em ${e.dataEmp} - Devolvido em: ${e.dataDev} - Multa: ${e.multa}</h3>
+                            <h3>---------------------------------------------------------------------------------------------------------------------------</h3><br>
+                        </c:forEach>                                                 
+                    </c:if>
+                        
                     <h1 id="msg1">${msg}</h1>
                     <script>
                         removerMensagens("msg1");
@@ -64,13 +77,14 @@
                     
                 </div>
 
-                <div class="div4"> <!-- MONTA A AREA DE CONSULTA -->
+                <div class="div4"> <!-- MONTA A AREA DE MENU -->
                     <div id = "div5">
                         <FORM action ="Biblioteca" method ="POST">                                                     
                             <input type ="text" name="book" maxlenght="50" placeholder="TITULO DO LIVRO" size=50><br><!-- comment -->
                             <input type="text" name="author" maxlength="30" placeholder="AUTOR" size=30><br><!-- comment -->
-                            <button type="submit" name="choice" value="CONSULTAR">CONSULTAR</button><br><!-- comment -->
-                            <button type="submit" name="choice" value="DEVOLVER">DEVOLUÇÃO</button><!-- comment -->
+                            <button type="submit" name="choice" value="CONSULTAR">CONSULTAR</button>
+                            <button type="submit" name="choice" value="HISTORICO">HISTÓRICO</button>
+                            <button type="submit" name="choice" value="DEVOLVER">DEVOLUÇÃO</button><br><!-- comment -->
                             <button type="submit" name="choice" value="CADCLIENTE">CADASTRAR CLIENTE</button>
                             <button type="submit" name="choice" value="CADLIVRO">CADASTRAR LIVRO</button>
                             <h2 id="msg">${erro}</h2>
@@ -156,6 +170,18 @@
                                 </script>
                                 <br>
                             </FORM>                      
+                        </c:if>
+                        
+                        <!-- ROTINA PARA MOSTRAR HISTÓRICO -->
+                        <c:if test="${choice == 'HISTORICO'}">
+                            <form action="Biblioteca" method="POST">
+                                <input type="text" name="cpf" placeholder="CPF" size="11"><br>
+                                <button class="branco" type="submit" name="choice" value="HISTORICO">ENVIAR</button>
+                                <br><h2 id="msg8">${msg8}</h2>
+                                <script>
+                                    removerMensagens("msg8");
+                                </script>
+                            </form>
                         </c:if>
                     </div>
                     

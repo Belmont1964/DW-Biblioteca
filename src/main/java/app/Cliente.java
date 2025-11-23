@@ -4,6 +4,8 @@
  */
 package app;
 
+
+
 /**
  *
  * @author belmo
@@ -65,4 +67,6 @@ public class Cliente {
     public String getSenha(){
         return this.senha;
     }
+    
+        
 }

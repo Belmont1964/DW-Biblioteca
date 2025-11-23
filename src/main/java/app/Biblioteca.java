@@ -59,9 +59,7 @@ public class Biblioteca extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            //String titulo = request.getParameter("book");
-            //String autor = request.getParameter("author");
+            
             String escolha = request.getParameter("choice");
             String erro, msg, update = "";
             
@@ -122,15 +120,7 @@ public class Biblioteca extends HttpServlet {
                         msg = "erro "+e;
                         request.setAttribute("msg",msg);
                     } 
-
-
                 }
-                /*
-                RequestDispatcher dispatcher = request.getRequestDispatcher("Biblioteca.jsp");
-                if (dispatcher != null){
-                    dispatcher.forward(request, response);
-                }
-                */
             }
 
             // ROTINA PARA SELECIONAR LIVRO A SER EMPRESTADO A UM CLIENTE
@@ -168,8 +158,8 @@ public class Biblioteca extends HttpServlet {
                                 sql1.executeUpdate();
                             }catch (SQLException e) {
                                 out.println("erro " + e );
-                                     msg = "erro "+e;
-                                     request.setAttribute("msg",msg);
+                                msg = "erro "+e;
+                                request.setAttribute("msg",msg);
                             }   
                             msg2 = "EMPRÉSTIMO FEITO COM SUCESSO";
                         }
@@ -177,8 +167,8 @@ public class Biblioteca extends HttpServlet {
                     }
                 } catch (SQLException e) {
                     out.println("erro " + e );
-                        msg = "erro "+e;
-                        request.setAttribute("msg",msg);
+                    msg = "erro "+e;
+                    request.setAttribute("msg",msg);
                 }
 
 
@@ -230,16 +220,16 @@ public class Biblioteca extends HttpServlet {
 
                             }catch (SQLException e) {
                                 out.println("erro " + e );
-                                     msg = "erro "+e;
-                                     request.setAttribute("msg",msg);
+                                msg = "erro "+e;
+                                request.setAttribute("msg",msg);
                             }
 
                         }
 
                     } catch (SQLException e) {
                         out.println("erro " + e );
-                            msg = "erro "+e;
-                            request.setAttribute("msg",msg);
+                        msg = "erro "+e;
+                        request.setAttribute("msg",msg);
                     }
                 }
                 request.setAttribute("msg3", msg3);
@@ -277,8 +267,8 @@ public class Biblioteca extends HttpServlet {
 
                 } catch (SQLException e) {
                     out.println("erro " + e );
-                        msg = "erro "+e;
-                        request.setAttribute("msg",msg);
+                    msg = "erro "+e;
+                    request.setAttribute("msg",msg);
                 }
 
                 comandoSQL = "insert into Emprestimo (idCliente, idLivro, dataEmp, dataDev, multa)"+
@@ -292,7 +282,7 @@ public class Biblioteca extends HttpServlet {
                         sql2.executeUpdate();
 
                     } catch (SQLException e) {
-                    out.println("erro " + e );
+                        out.println("erro " + e );
                         msg = "erro "+e;
                         request.setAttribute("msg",msg);
                     }
@@ -388,8 +378,76 @@ public class Biblioteca extends HttpServlet {
                 }
                 request.setAttribute("msg7",msg7);
             }
-              
             
+            // ROTINA PARA MOSTRAR HISTÓRICO DE EMPRÉSTIMOS  
+            else if ("HISTORICO".equals(escolha)){
+                request.setAttribute("choice",escolha);
+                String msg8 = "";
+                String cpf = request.getParameter ("cpf");
+                
+
+                if (cpf != null && !cpf.isEmpty()){      //SELECIONA O CPF  
+                    String comandoSQL="select * from Cliente where cpf = ? ";
+                    try (PreparedStatement sql = conexao.prepareStatement(comandoSQL)){                   
+                        sql.setString(1, cpf);
+                        ResultSet rsc = sql.executeQuery();
+                        if (!rsc.next()){
+                            msg8 = "CPF NÃO ENCONTRADO";
+                        }                        
+                        
+                        
+                        else {                          // BUSCA OS LIVROS EMPRESTADOD AO CPF
+                            String nomeHist = rsc.getString("nome");
+                            String head = "O cliente "+nomeHist+" Possui o seguinte histórico de empréstimos:";
+                            request.setAttribute("head",head);
+                            
+                            int idCliente = rsc.getInt("idCliente");
+                            comandoSQL = "select l.titulo, l.autor, e.dataEmp, e.dataDev, e.multa "
+                                    + "from Emprestimo e join Livro l on e.idLivro = l.idLivro "
+                                    + "where e.idCliente = ? "
+                                    + "order by e.dataEmp DESC";
+                            
+                            try(PreparedStatement sql1 = conexao.prepareStatement(comandoSQL)){
+                                sql1.setInt(1, idCliente);
+                                ResultSet rs = sql1.executeQuery();
+                                List <Emprestimo> emprestimos = new ArrayList<>();
+                                if (rs.next()){
+                                    do{
+                                       emprestimos.add(new Emprestimo(
+                                               rs.getString("titulo"),
+                                               rs.getString("autor"),
+                                               rs.getDate("dataEmp"),
+                                               rs.getDate("dataDev"),
+                                               rs.getDouble("multa")
+                                                                                     
+                                       ));                                       
+                                    }while (rs.next());
+                                    request.setAttribute ("emprestimos", emprestimos);
+                                    request.setAttribute("blockHead","N");
+                                }
+                                else{
+                                    msg8 = "O cliente "+rsc.getString("nome")+" NAO POSSUI EMPRÉSTIMOS";
+                                    request.setAttribute("blockHead","S");
+                                }
+                                    
+                            }catch (SQLException e) {
+                                out.println("erro " + e );
+                                msg = "erro "+e.getMessage();
+                                request.setAttribute("msg",msg);               
+                            }
+                        }
+                            
+                                
+                    }catch (SQLException e) {
+                    //out.println("erro " + e );
+                        msg = "erro "+e;
+                        request.setAttribute("msg",msg);
+                
+                    } 
+                }
+                request.setAttribute("msg8",msg8);
+              
+            }
             //REQUEST DISPATCHER PARA TODAS AS ROTINAS
             RequestDispatcher dispatcher = request.getRequestDispatcher("Biblioteca.jsp");
             if (dispatcher != null){
@@ -398,8 +456,9 @@ public class Biblioteca extends HttpServlet {
 
         }
 
-
+            
                
+    
     }
 
 
@@ -443,3 +502,4 @@ public class Biblioteca extends HttpServlet {
     }// </editor-fold>
 
 }
+
