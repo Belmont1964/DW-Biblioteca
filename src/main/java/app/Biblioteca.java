@@ -256,12 +256,13 @@ public class Biblioteca extends HttpServlet {
                 java.sql.Date dataEmpSQL = java.sql.Date.valueOf(dataEmp);
                 //LocalDate hj = LocalDate.now();
                 java.sql.Date hjSQL = java.sql.Date.valueOf(hj);
-                String comandoSQL = "update Livro set statusLivro = ?, dataDevolucao = ?, Cliente = ? where idLivro = ?";
+                String comandoSQL = "update Livro set statusLivro = ?, dataDevolucao = ?, Cliente = ?, dataEmprestimo = ? where idLivro = ?";
                 try(PreparedStatement sql = conexao.prepareStatement(comandoSQL)){
                     sql.setString (1,"D");
                     sql.setDate (2,hjSQL);
                     sql.setNull(3, java.sql.Types.INTEGER);
-                    sql.setInt(4,idL);
+                    sql.setDate (4,null);
+                    sql.setInt(5,idL);
                     sql.executeUpdate();
                     String msg4 = "DEVOLUÇÃO EFETUADA COM SUCESSO";
                     request.setAttribute("msg4",msg4);
