@@ -64,9 +64,9 @@
                             <h2>${head}</h2>
                         </c:if>
                         <c:forEach var="e" items="${emprestimos}">
-                            <h3>Titulo: ${e.titulo} - Autor: ${e.autor}</h3>
-                            <h3>Emprestado em ${e.dataEmp} - Devolvido em: ${e.dataDev} - Multa: ${e.multa}</h3>
-                            <h3>---------------------------------------------------------------------------------------------------------------------------</h3><br>
+                            <h3 style="color: yellow;">Titulo: ${e.titulo} - Autor: ${e.autor}</h3>
+                            <h4>Emprestado em ${e.dataEmp}  -  Devolvido em: ${e.dataDev}    -    Multa: ${e.multa}</h4>
+                            <br>
                         </c:forEach>                                                 
                     </c:if>
                         
