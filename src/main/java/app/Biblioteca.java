@@ -108,7 +108,8 @@ public class Biblioteca extends HttpServlet {
                                         rs.getString("autor"),
                                         rs.getString("edicao"),
                                         rs.getString("lugar"),
-                                        rs.getString("statusLivro")
+                                        rs.getString("statusLivro"),
+                                        rs.getDate("dataEmprestimo")
                                 ));
                             }while(rs.next());
                             request.setAttribute("livros", livros);

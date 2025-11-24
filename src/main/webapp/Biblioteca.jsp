@@ -37,7 +37,7 @@
                     <c:if test="${choice == 'CONSULTAR' or choice == 'DEVOLVER'}">
                         <c:forEach var="l" items="${livros}">
                             <FORM action ="Biblioteca" method ="POST">
-                                <h3>${l.idLivro} - ${l.titulo} - Local: ${l.lugar} <br>  ${l.autor} - Edição: ${l.edicao} - Status: ${l.statusLivro}</h3>
+                                <h3>${l.idLivro} - ${l.titulo} - Local: ${l.lugar} <br>  ${l.autor} - Edição: ${l.edicao} - Data Empréstimo: ${l.dataEmprestimo}</h3>
 
                                 <c:if test="${choice == 'CONSULTAR'}">
                                     <button class="${l.statusLivro == 'I' ? 'cinza' : 'branco'}" 
