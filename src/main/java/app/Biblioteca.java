@@ -398,7 +398,7 @@ public class Biblioteca extends HttpServlet {
                         
                         else {                          // BUSCA OS LIVROS EMPRESTADOD AO CPF
                             String nomeHist = rsc.getString("nome");
-                            String head = "O cliente "+nomeHist+" Possui o seguinte histórico de empréstimos:";
+                            String head = "Histórico de empréstimo de: "+nomeHist;
                             request.setAttribute("head",head);
                             
                             int idCliente = rsc.getInt("idCliente");
