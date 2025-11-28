@@ -30,6 +30,7 @@ html, body {
 
 
 #div1{
+    font-family: 'Arial', sans-serif;
     display: flex;
     width: calc(100% - 0px);
     height: 100px;
@@ -47,6 +48,7 @@ html, body {
 
 
 .container {
+    font-family: 'Arial', sans-serif;
     flex: 1;
     display: flex;
     gap: 5px;
@@ -58,6 +60,7 @@ html, body {
 
 
 .div3{
+    font-family: 'Arial', sans-serif;
     flex: 1 1 0;  /* grow:1 (ajusta-se no espaço do container), shrink:1 (pode encolher se faltar espaço), basis:0 → tamanho inicial antes do grow/shrink */
     min-width: 0;
     min-height: 0;     
@@ -92,6 +95,7 @@ html, body {
 }
 
 #div5{
+    font-family: 'Arial', sans-serif;
     width: 100%;
     /*height: 40%;*/
     flex: 0 0 40%; /* grow:0, shrink:0, basis:40 → pega 40% do espaço */
@@ -104,6 +108,7 @@ html, body {
 }
 
 #div6{
+    font-family: 'Arial', sans-serif;
     width: 100%;
     height: 60%;  
     flex: 1; /* grow:1, shrink:1, basis:0 → pega o resto do espaço */
